@@ -17,6 +17,8 @@ namespace AlienInvaders
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D invader, spaceship, projectile;
+        SpriteFont Font;
+        Vector2 HelpLoc1, HelpLoc2;
         Rectangle rectspaceship, rectprojectile;
         Rectangle[,] rectinvader;
         string[,] invaderalive;
@@ -53,6 +55,9 @@ namespace AlienInvaders
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            Font = Content.Load<SpriteFont>("Font");
+            HelpLoc1 = new Vector2(10, 10);
+            HelpLoc2 = new Vector2(550, 10);
             invader = Content.Load<Texture2D>("invader");
             rectinvader = new Rectangle[rows, cols];
             invaderalive = new string[rows, cols];
@@ -241,6 +246,8 @@ namespace AlienInvaders
             {
                 spriteBatch.Draw(projectile, rectprojectile, Color.White);
             }
+            spriteBatch.DrawString(Font, "Press SPACE to shoot", HelpLoc1, Color.White);
+            spriteBatch.DrawString(Font, "Use Left and Right arrows to move", HelpLoc2, Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
