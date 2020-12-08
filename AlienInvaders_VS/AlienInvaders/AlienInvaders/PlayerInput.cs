@@ -48,7 +48,7 @@ namespace AlienInvaders
                     invaderalive[r, c] = "YES";
                 }
             }*/
-            spaceship = this.Game.Content.Load<Texture2D>("spaceship");
+            /*spaceship = this.Game.Content.Load<Texture2D>("spaceship");
             rectspaceship.Width = spaceship.Width;
             rectspaceship.Height = spaceship.Height;
             rectspaceship.X = 0;
@@ -57,7 +57,7 @@ namespace AlienInvaders
             rectprojectile.Width = projectile.Width;
             rectprojectile.Height = projectile.Height;
             rectprojectile.X = 0;
-            rectprojectile.Y = 0;
+            rectprojectile.Y = 0;*/
             base.LoadContent();
         }
 
@@ -107,7 +107,7 @@ namespace AlienInvaders
                     }
                 }
             }*/
-            if (input.KeyboardState.IsKeyDown(Keys.Left))
+            /*if (input.KeyboardState.IsKeyDown(Keys.Left))
             {
                 rectspaceship.X = rectspaceship.X - 3;
             }
@@ -152,7 +152,7 @@ namespace AlienInvaders
             {
                 ProjectileVisible = false;
             }
-            /*int count = 0;
+            int count = 0;
             for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
@@ -188,8 +188,8 @@ namespace AlienInvaders
         }
         public override void Draw(GameTime gameTime)
         {
-            sb.Begin();
-            /*for (int r = 0; r < rows; r++)
+            /*sb.Begin();
+            for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
                 {
@@ -198,13 +198,13 @@ namespace AlienInvaders
                         sb.Draw(invader, rectinvader[r, c], Color.White);
                     }
                 }
-            }*/
+            }
             sb.Draw(spaceship, rectspaceship, Color.White);
             if (ProjectileVisible.Equals(true))
             {
                 sb.Draw(projectile, rectprojectile, Color.White);
             }
-            sb.End();
+            sb.End();*/
             base.Draw(gameTime);
         }
     }

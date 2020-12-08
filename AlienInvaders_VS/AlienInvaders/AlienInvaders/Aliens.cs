@@ -27,7 +27,7 @@ namespace AlienInvaders
 
         protected override void LoadContent()
         {
-            sb = new SpriteBatch(this.Game.GraphicsDevice);
+            /*sb = new SpriteBatch(this.Game.GraphicsDevice);
             invader = this.Game.Content.Load<Texture2D>("invader");
             rectinvader = new Rectangle[rows, cols];
             invaderalive = new bool[rows, cols];
@@ -42,12 +42,12 @@ namespace AlienInvaders
                     invaderalive[r, c] = true;
                 }
             }
-            base.LoadContent();
+            base.LoadContent();*/
         }
 
         public override void Update(GameTime gameTime)
         {
-            int rightside = GraphicsDevice.Viewport.Width;
+            /*int rightside = GraphicsDevice.Viewport.Width;
             int leftside = 0;
             for (int r = 0; r < rows; r++)
             {
@@ -109,12 +109,12 @@ namespace AlienInvaders
             {
                 invaderspeed = 6;
             }
-            base.Update(gameTime);
+            base.Update(gameTime);*/
         }
 
         public override void Draw(GameTime gameTime)
         {
-            sb.Begin();
+            /*sb.Begin();
             for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
@@ -125,7 +125,7 @@ namespace AlienInvaders
                     }
                 }
             }
-            sb.End();
+            sb.End();*/
             base.Draw(gameTime);
         }
     }
