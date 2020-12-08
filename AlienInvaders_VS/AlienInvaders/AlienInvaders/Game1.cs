@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoGameLibrary.Util;
 
 namespace AlienInvaders
 {
@@ -16,22 +16,34 @@ namespace AlienInvaders
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D invader, spaceship, projectile;
-        SpriteFont Font;
-        Vector2 HelpLoc1, HelpLoc2;
-        Rectangle rectspaceship, rectprojectile;
-        Rectangle[,] rectinvader;
-        string[,] invaderalive;
-        int invaderspeed = 3;
-        int rows = 5;
-        int cols = 10;
-        string Direction = "RIGHT";
-        string ProjectileVisible = "NO";
+        Scrolling scrolling1;
+        Scrolling scrolling2;
+        Aliens aliens;
+        ScoreManager score;
+        InputHandler input;
+        PlayerInput pi;
+        //Texture2D spaceship, invader, projectile;
+        //Rectangle rectspaceship, rectprojectile;
+        //Rectangle[,] rectinvader;
+        //bool[,] invaderalive;
+        //int invaderspeed = 3;
+        //int rows = 5;
+        //int cols = 5;
+        //string Direction = "RIGHT";
+        //bool ProjectileVisible = false;
 
-        public Game1()
+        public Game1() : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            input = new InputHandler(this);
+            this.Components.Add(input);
+            score = new ScoreManager(this);
+            this.Components.Add(score);
+            aliens = new Aliens(this);
+            this.Components.Add(aliens);
+            pi = new PlayerInput(this);
+            this.Components.Add(pi);
         }
 
         /// <summary>
@@ -42,7 +54,6 @@ namespace AlienInvaders
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
 
             base.Initialize();
         }
@@ -55,12 +66,11 @@ namespace AlienInvaders
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Font = Content.Load<SpriteFont>("Font");
-            HelpLoc1 = new Vector2(10, 10);
-            HelpLoc2 = new Vector2(550, 10);
-            invader = Content.Load<Texture2D>("invader");
+            scrolling1 = new Scrolling(Content.Load<Texture2D>("stars1"), new Rectangle(0,0,800,500));
+            scrolling2 = new Scrolling(Content.Load<Texture2D>("stars2"), new Rectangle(0, 0, 800, 500));
+            /*invader = Content.Load<Texture2D>("invader");
             rectinvader = new Rectangle[rows, cols];
-            invaderalive = new string[rows, cols];
+            invaderalive = new bool[rows, cols];
             for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
@@ -69,7 +79,7 @@ namespace AlienInvaders
                     rectinvader[r, c].Height = invader.Height;
                     rectinvader[r, c].X = 60 * c;
                     rectinvader[r, c].Y = 60 * r;
-                    invaderalive[r, c] = "YES";
+                    invaderalive[r, c] = true;
                 }
             }
             spaceship = Content.Load<Texture2D>("spaceship");
@@ -81,8 +91,8 @@ namespace AlienInvaders
             rectprojectile.Width = projectile.Width;
             rectprojectile.Height = projectile.Height;
             rectprojectile.X = 0;
-            rectprojectile.Y = 0;
-
+            rectprojectile.Y = 0;*/
+            
             // TODO: use this.Content to load your game content here
         }
 
@@ -104,7 +114,17 @@ namespace AlienInvaders
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            int rightside = graphics.GraphicsDevice.Viewport.Width;
+            if (scrolling1.rectangle.Y - scrolling1.stars.Height >= 0)
+            {
+                scrolling1.rectangle.Y = scrolling2.rectangle.Y - scrolling2.stars.Height;
+            }
+            if (scrolling2.rectangle.Y - scrolling2.stars.Height >= 0)
+            {
+                scrolling2.rectangle.Y = scrolling1.rectangle.Y - scrolling1.stars.Height;
+            }
+            scrolling1.Update();
+            scrolling2.Update();
+            /*int rightside = graphics.GraphicsDevice.Viewport.Width;
             int leftside = 0;
             for (int r = 0; r < rows; r++)
             {
@@ -121,7 +141,7 @@ namespace AlienInvaders
             {
                 for (int c = 0; c < cols; c++)
                 {
-                    if (invaderalive[r, c].Equals("YES"))
+                    if (invaderalive[r, c].Equals(true))
                     {
                         if (rectinvader[r, c].X + rectinvader[r, c].Width > rightside)
                         {
@@ -157,43 +177,48 @@ namespace AlienInvaders
             {
                 rectspaceship.X = rectspaceship.X + 3;
             }
-            if (kb.IsKeyDown(Keys.Space) && ProjectileVisible.Equals("NO"))
+            if (kb.IsKeyDown(Keys.Space) && ProjectileVisible.Equals(false))
             {
-                ProjectileVisible = "YES";
+                ProjectileVisible = true;
                 rectprojectile.X = rectspaceship.X + (rectspaceship.Width / 2) - (rectprojectile.Width / 2);
                 rectprojectile.Y = rectspaceship.Y - rectprojectile.Height + 2;
             }
-            if (ProjectileVisible.Equals("YES"))
+            if (ProjectileVisible.Equals(true))
             {
                 rectprojectile.Y = rectprojectile.Y - 5;
             }
-            if (ProjectileVisible.Equals("YES"))
+            if (ProjectileVisible.Equals(true))
             {
                 for (int r = 0; r < rows; r++)
                 {
                     for (int c = 0; c < cols; c++)
                     {
-                        if (invaderalive[r, c].Equals("YES"))
+                        if (invaderalive[r, c].Equals(true))
                         {
                             if (rectprojectile.Intersects(rectinvader[r, c]))
                             {
-                                ProjectileVisible = "NO";
-                                invaderalive[r, c] = "NO";
+                                ProjectileVisible = false;
+                                invaderalive[r, c] = false;
+                                ScoreManager.Score++;
                             }
                         }
                     }
                 }
             }
+            if (ScoreManager.Score == 50)
+            {
+                this.Exit();
+            }
             if (rectprojectile.Y + rectprojectile.Height < 0)
             {
-                ProjectileVisible = "NO";
+                ProjectileVisible = false;
             }
             int count = 0;
             for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
                 {
-                    if (invaderalive[r, c].Equals("YES"))
+                    if (invaderalive[r, c].Equals(true))
                     {
                         count = count + 1;
                     }
@@ -211,7 +236,7 @@ namespace AlienInvaders
             {
                 for (int c = 0; c < cols; c++)
                 {
-                    if (invaderalive[r, c].Equals("YES"))
+                    if (invaderalive[r, c].Equals(true))
                     {
                         if (rectinvader[r, c].Y + rectinvader[r, c].Height > rectspaceship.Y)
                         {
@@ -219,7 +244,7 @@ namespace AlienInvaders
                         }
                     }
                 }
-            }
+            }*/
                 base.Update(gameTime);
         }
 
@@ -231,23 +256,23 @@ namespace AlienInvaders
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            for (int r = 0; r < rows; r++)
+            scrolling1.Draw(spriteBatch);
+            scrolling2.Draw(spriteBatch);
+            /*for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
                 {
-                    if (invaderalive[r, c].Equals("YES"))
+                    if (invaderalive[r, c].Equals(true))
                     {
                         spriteBatch.Draw(invader, rectinvader[r, c], Color.White);
                     }
                 }
             }
             spriteBatch.Draw(spaceship, rectspaceship, Color.White);
-            if (ProjectileVisible.Equals("YES"))
+            if (ProjectileVisible.Equals(true))
             {
                 spriteBatch.Draw(projectile, rectprojectile, Color.White);
-            }
-            spriteBatch.DrawString(Font, "Press SPACE to shoot", HelpLoc1, Color.White);
-            spriteBatch.DrawString(Font, "Use Left and Right arrows to move", HelpLoc2, Color.White);
+            }*/
             spriteBatch.End();
 
             base.Draw(gameTime);

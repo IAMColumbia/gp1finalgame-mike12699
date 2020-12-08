@@ -1,16 +1,15 @@
 Release Notes version 2 Vertical Slice
 
--Added instructions on screen to show what the player has to do
--The alien spaceships move left and right and also go down slightly to get closer to the player
--When more than half of the alien spaceships are defeated, they start to move faster
--When an alien spaceship reaches the bottom and touches the player, the game ends and will quit
+-Added the MonoGameLibrary project to help with the coding
+-Added the lives, level, and score counter on the screen
+-When an enemy spaceship is defeated, adds one point to score
+-Added a vertically scrolling background (still a little buggy)
+-Reorganized most of the code to their respective classes
+-Game closes upon winning and losing
 
 Incoming chabges for future commit
 
--Separate the code in their own respective classes to be more organized
--Add a ScoreManager class to implement the score when the player defeats an alien spaceship
--Add a proper lose state and win state
--Have a max of 3 levels and keep track of score at the end
--Have some alien spaceships shoot at the player when they are in range
--Make the player spaceship not go offscreen when they go too far left or right
--Will likely implement some sound in the game
+-Make the game change levels when the player defeats all enemies
+-Add a Win and Lose state instead of closing the game
+-Have random projectiles come down the screen to try and hit the player
+-Add a restart method when the player either wins or loses
