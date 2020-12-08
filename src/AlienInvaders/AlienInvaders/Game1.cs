@@ -251,7 +251,7 @@ namespace AlienInvaders
             switch (level)
             {
                 case Level.Level1:
-                    if(ScoreManager.Score == 25)
+                    if(ScoreManager.Score == 50)
                     {
                         //ScoreManager.Level++;
                         int rows = 5;
@@ -348,7 +348,7 @@ namespace AlienInvaders
                     }
                     break;
                 case Level.Level2:
-                    if(ScoreManager.Score == 50)
+                    if(ScoreManager.Score == 100)
                     {
                         //ScoreManager.Level++;
                         int rows = 7;
