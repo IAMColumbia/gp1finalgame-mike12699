@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,32 +13,38 @@ namespace AlienInvaders
 {
     public class PlayerInput : DrawableGameComponent
     {
-        InputHandler input;
+        //InputHandler input;
         SpriteBatch sb;
-        Texture2D spaceship, projectile;
+        Texture2D spaceship, invader, projectile;
         Rectangle rectspaceship, rectprojectile;
         Rectangle[,] rectinvader;
-        public static bool[,] invaderalive;
-        public static int rows = 5;
-        public static int cols = 10;
-        public static int invaderspeed = 3;
-        public static string Direction = "RIGHT";
-        public static bool ProjectileVisible = false;
-        public Vector2 Movement { get; private set; }
+        public bool[,] invaderalive;
+        public int rows = 5;
+        public int cols = 10;
+        public int invaderspeed = 3;
+        public string Direction = "RIGHT";
+        public bool ProjectileVisible = false;
+
+        //public Vector2 Movement { get; private set; }
 
         public PlayerInput(Game game) : base(game)
         {
-            input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
-            this.Movement = Vector2.Zero;
+            //input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
+            //this.Movement = Vector2.Zero;
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
         }
 
         protected override void LoadContent()
         {
             sb = new SpriteBatch(this.Game.GraphicsDevice);
-            //invader = this.Game.Content.Load<Texture2D>("invader");
+            invader = this.Game.Content.Load<Texture2D>("invader");
             rectinvader = new Rectangle[rows, cols];
             invaderalive = new bool[rows, cols];
-            /*for (int r = 0; r < rows; r++)
+            for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
                 {
@@ -45,10 +52,10 @@ namespace AlienInvaders
                     rectinvader[r, c].Height = invader.Height;
                     rectinvader[r, c].X = 60 * c;
                     rectinvader[r, c].Y = 60 * r;
-                    invaderalive[r, c] = "YES";
+                    invaderalive[r, c] = true;
                 }
-            }*/
-            /*spaceship = this.Game.Content.Load<Texture2D>("spaceship");
+            }
+            spaceship = this.Game.Content.Load<Texture2D>("spaceship");
             rectspaceship.Width = spaceship.Width;
             rectspaceship.Height = spaceship.Height;
             rectspaceship.X = 0;
@@ -57,14 +64,14 @@ namespace AlienInvaders
             rectprojectile.Width = projectile.Width;
             rectprojectile.Height = projectile.Height;
             rectprojectile.X = 0;
-            rectprojectile.Y = 0;*/
+            rectprojectile.Y = 0;
             base.LoadContent();
         }
 
         public override void Update(GameTime gametime)
         {
-            this.Movement = Vector2.Zero;
-            /*int rightside = 800;
+            //this.Movement = Vector2.Zero;
+            int rightside = GraphicsDevice.Viewport.Width;
             int leftside = 0;
             for (int r = 0; r < rows; r++)
             {
@@ -81,7 +88,7 @@ namespace AlienInvaders
             {
                 for (int c = 0; c < cols; c++)
                 {
-                    if (invaderalive[r, c].Equals("YES"))
+                    if (invaderalive[r, c].Equals(true))
                     {
                         if (rectinvader[r, c].X + rectinvader[r, c].Width > rightside)
                         {
@@ -106,17 +113,56 @@ namespace AlienInvaders
                         rectinvader[r, c].Y = rectinvader[r, c].Y + 5;
                     }
                 }
-            }*/
-            /*if (input.KeyboardState.IsKeyDown(Keys.Left))
+            }
+            int count = 0;
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    if (invaderalive[r, c].Equals(true))
+                    {
+                        count = count + 1;
+                    }
+                }
+            }
+            if (count > (rows * cols / 2))
+            {
+                invaderspeed = invaderspeed;
+            }
+            if (count < (rows * cols / 3))
+            {
+                invaderspeed = 4;
+            }
+            KeyboardState kb = Keyboard.GetState();
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    if (invaderalive[r, c].Equals(true))
+                    {
+                        if (rectinvader[r, c].Y + rectinvader[r, c].Height > rectspaceship.Y)
+                        {
+                            rows = 0;
+                            cols = 0;
+                            spaceship.Dispose();
+                            projectile.Dispose();
+                            ScoreManager.Lives--;
+                            GameStates.intGameState = 1;
+                            
+                        }
+                    }
+                }
+            }
+            if (kb.IsKeyDown(Keys.Left))
             {
                 rectspaceship.X = rectspaceship.X - 3;
             }
 
-            if (input.KeyboardState.IsKeyDown(Keys.Right))
+            if (kb.IsKeyDown(Keys.Right))
             {
                 rectspaceship.X = rectspaceship.X + 3;
             }
-            if (input.KeyboardState.IsKeyDown(Keys.Space) && ProjectileVisible.Equals(false))
+            if (kb.IsKeyDown(Keys.Space) && ProjectileVisible.Equals(false))
             {
                 ProjectileVisible = true;
                 rectprojectile.X = rectspaceship.X + (rectspaceship.Width / 2) - (rectprojectile.Width / 2);
@@ -146,54 +192,25 @@ namespace AlienInvaders
             }
             if (ScoreManager.Score == 50)
             {
-                Game.Exit();
+                GameStates.intGameState = 2;
+                spaceship.Dispose();
+                projectile.Dispose();
             }
             if (rectprojectile.Y + rectprojectile.Height < 0)
             {
                 ProjectileVisible = false;
             }
-            int count = 0;
-            for (int r = 0; r < rows; r++)
-            {
-                for (int c = 0; c < cols; c++)
-                {
-                    if (invaderalive[r, c].Equals("YES"))
-                    {
-                        count = count + 1;
-                    }
-                }
-            }
-            if (count > (rows * cols / 2))
-            {
-                invaderspeed = invaderspeed;
-            }
-            if (count < (rows * cols / 3))
-            {
-                invaderspeed = 6;
-            }
+            
+            base.Update(gametime);
+        }
+        public override void Draw(GameTime gameTime)
+        {
+            sb.Begin();
             for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
                 {
                     if (invaderalive[r, c].Equals(true))
-                    {
-                        if (rectinvader[r, c].Y + rectinvader[r, c].Height > rectspaceship.Y)
-                        {
-                            ScoreManager.Lives--;
-                        }
-                    }
-                }
-            }*/
-            base.Update(gametime);
-        }
-        public override void Draw(GameTime gameTime)
-        {
-            /*sb.Begin();
-            for (int r = 0; r < rows; r++)
-            {
-                for (int c = 0; c < cols; c++)
-                {
-                    if (invaderalive[r, c].Equals("YES"))
                     {
                         sb.Draw(invader, rectinvader[r, c], Color.White);
                     }
@@ -204,7 +221,7 @@ namespace AlienInvaders
             {
                 sb.Draw(projectile, rectprojectile, Color.White);
             }
-            sb.End();*/
+            sb.End();
             base.Draw(gameTime);
         }
     }

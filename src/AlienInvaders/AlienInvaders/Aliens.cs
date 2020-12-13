@@ -9,12 +9,12 @@ using MonoGameLibrary.Util;
 
 namespace AlienInvaders
 {
-    public class Aliens : DrawableGameComponent
+    public class Aliens
     {
-        SpriteBatch sb;
+        /*SpriteBatch sb;
         Texture2D invader;
-        Rectangle[,] rectinvader;
-        bool[,] invaderalive;
+        public Rectangle[,] rectinvader;
+        public bool[,] invaderalive;
         public int rows = 5;
         public int cols = 10;
         public int invaderspeed = 3;
@@ -27,7 +27,7 @@ namespace AlienInvaders
 
         protected override void LoadContent()
         {
-            /*sb = new SpriteBatch(this.Game.GraphicsDevice);
+            sb = new SpriteBatch(this.Game.GraphicsDevice);
             invader = this.Game.Content.Load<Texture2D>("invader");
             rectinvader = new Rectangle[rows, cols];
             invaderalive = new bool[rows, cols];
@@ -42,12 +42,12 @@ namespace AlienInvaders
                     invaderalive[r, c] = true;
                 }
             }
-            base.LoadContent();*/
+            base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
-            /*int rightside = GraphicsDevice.Viewport.Width;
+            int rightside = GraphicsDevice.Viewport.Width;
             int leftside = 0;
             for (int r = 0; r < rows; r++)
             {
@@ -107,14 +107,14 @@ namespace AlienInvaders
             }
             if (count < (rows * cols / 3))
             {
-                invaderspeed = 6;
+                invaderspeed = 5;
             }
-            base.Update(gameTime);*/
+            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            /*sb.Begin();
+            sb.Begin();
             for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
@@ -125,8 +125,8 @@ namespace AlienInvaders
                     }
                 }
             }
-            sb.End();*/
+            sb.End();
             base.Draw(gameTime);
-        }
+        }*/
     }
 }

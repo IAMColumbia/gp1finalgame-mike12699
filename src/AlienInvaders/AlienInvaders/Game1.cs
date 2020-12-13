@@ -14,42 +14,49 @@ namespace AlienInvaders
     /// </summary>
     public class Game1 : Game
     {
-        enum Level
-        {
-            Level1, Level2
-        }
-
+     
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Level level;
+        //Level level;
         Scrolling scrolling1;
         Scrolling scrolling2;
-        Aliens aliens;
+        //Aliens aliens;
         ScoreManager score;
-        InputHandler input;
+        //InputHandler input;
         PlayerInput pi;
-        Texture2D spaceship, invader, projectile;
-        Rectangle rectspaceship, rectprojectile;
-        Rectangle[,] rectinvader;
-        bool[,] invaderalive;
-        int invaderspeed = 3;
-        int rows = 5;
-        int cols = 10;
-        string Direction = "RIGHT";
-        bool ProjectileVisible = false;
+        Timer timer;
+        GameStates gs;
+        //Vector2 endScreen_Loc;
+        //Vector2 startScreen_Loc;
+        //Texture2D imageEnd;
+        //Texture2D imageStart;
+        //int intGameState;
+        //Texture2D spaceship, projectile;
+        //Rectangle rectspaceship, rectprojectile;
+        //Rectangle[,] rectinvader;
+        //bool[,] invaderalive;
+        //int invaderspeed = 3;
+        //int rows = 5;
+        //int cols = 10;
+        //string Direction = "RIGHT";
+        //bool ProjectileVisible = false;
 
         public Game1() : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            input = new InputHandler(this);
-            this.Components.Add(input);
+            gs = new GameStates(this);
+            this.Components.Add(gs);
+            //input = new InputHandler(this);
+            //this.Components.Add(input);
             score = new ScoreManager(this);
             this.Components.Add(score);
-            aliens = new Aliens(this);
-            this.Components.Add(aliens);
+            //aliens = new Aliens(this);
+            //this.Components.Add(aliens);
             pi = new PlayerInput(this);
             this.Components.Add(pi);
+            timer = new Timer(this);
+            this.Components.Add(timer);
         }
 
         /// <summary>
@@ -60,6 +67,7 @@ namespace AlienInvaders
         /// </summary>
         protected override void Initialize()
         {
+            //endScreen_Win = new GameStates();
 
             base.Initialize();
         }
@@ -74,7 +82,13 @@ namespace AlienInvaders
             spriteBatch = new SpriteBatch(GraphicsDevice);
             scrolling1 = new Scrolling(Content.Load<Texture2D>("stars1"), new Rectangle(0,0,800,500));
             scrolling2 = new Scrolling(Content.Load<Texture2D>("stars2"), new Rectangle(0, 0, 800, 500));
-            invader = Content.Load<Texture2D>("invader");
+            /*imageStart = Content.Load<Texture2D>("imageStart");
+            imageEnd = Content.Load<Texture2D>("imageEnd");
+            endScreen_Win.spriteTexture = imageEnd;
+            endScreen_Loc = Vector2.Zero;
+            startScreen_Loc = Vector2.Zero;
+            intGameState = 0;*/
+            /*invader = Content.Load<Texture2D>("invader");
             rectinvader = new Rectangle[rows, cols];
             invaderalive = new bool[rows, cols];
             for (int r = 0; r < rows; r++)
@@ -97,7 +111,7 @@ namespace AlienInvaders
             rectprojectile.Width = projectile.Width;
             rectprojectile.Height = projectile.Height;
             rectprojectile.X = 0;
-            rectprojectile.Y = 0;
+            rectprojectile.Y = 0;*/
             
             // TODO: use this.Content to load your game content here
         }
@@ -130,7 +144,7 @@ namespace AlienInvaders
             }
             scrolling1.Update();
             scrolling2.Update();
-            int rightside = graphics.GraphicsDevice.Viewport.Width;
+            /*int rightside = graphics.GraphicsDevice.Viewport.Width;
             int leftside = 0;
             for (int r = 0; r < rows; r++)
             {
@@ -246,205 +260,9 @@ namespace AlienInvaders
                         }
                     }
                 }
-            }
+            }*/
 
-            switch (level)
-            {
-                case Level.Level1:
-                    if(ScoreManager.Score == 50)
-                    {
-                        //ScoreManager.Level++;
-                        int rows = 5;
-                        int cols = 10;
-                        int invaderspeed1 = 3;
-                        rectinvader = new Rectangle[rows, cols];
-                        invaderalive = new bool[rows, cols];
-                        for (int r1 = 0; r1 < rows; r1++)
-                        {
-                            for (int c1 = 0; c1 < cols; c1++)
-                            {
-                                rectinvader[r1, c1].Width = invader.Width;
-                                rectinvader[r1, c1].Height = invader.Height;
-                                rectinvader[r1, c1].X = 60 * c1;
-                                rectinvader[r1, c1].Y = 60 * r1;
-                                invaderalive[r1, c1] = true;
-                            }
-                        }
-                        int rightside1 = graphics.GraphicsDevice.Viewport.Width;
-                        int leftside1 = 0;
-                        for (int r1 = 0; r1 < rows; r1++)
-                        {
-                            for (int c1 = 0; c1 < cols; c1++)
-                            {
-                                if (Direction.Equals("RIGHT"))
-                                    rectinvader[r1, c1].X = rectinvader[r1, c1].X + invaderspeed;
-                                if (Direction.Equals("LEFT"))
-                                    rectinvader[r1, c1].X = rectinvader[r1, c1].X - invaderspeed;
-                            }
-                        }
-                        string ChangeDirection1 = "N";
-                        for (int r1 = 0; r1 < rows; r1++)
-                        {
-                            for (int c1 = 0; c1 < cols; c1++)
-                            {
-                                if (invaderalive[r1, c1].Equals(true))
-                                {
-                                    if (rectinvader[r1, c1].X + rectinvader[r1, c1].Width > rightside1)
-                                    {
-                                        Direction = "LEFT";
-                                        ChangeDirection1 = "Y";
-                                    }
-
-                                    if (rectinvader[r1, c1].X < leftside1)
-                                    {
-                                        Direction = "RIGHT";
-                                        ChangeDirection1 = "Y";
-                                    }
-                                }
-                            }
-                        }
-                        if (ChangeDirection1.Equals("Y"))
-                        {
-                            for (int r1 = 0; r1 < rows; r1++)
-                            {
-                                for (int c1 = 0; c1 < cols; c1++)
-                                {
-                                    rectinvader[r1, c1].Y = rectinvader[r1, c1].Y + 5;
-                                }
-                            }
-                        }
-                        int count1 = 0;
-                        for (int r1 = 0; r1 < rows; r1++)
-                        {
-                            for (int c1 = 0; c1 < cols; c1++)
-                            {
-                                if (invaderalive[r1, c1].Equals(true))
-                                {
-                                    count1 = count1 + 1;
-                                }
-                            }
-                        }
-                        if (count1 > (rows * cols / 2))
-                        {
-                            invaderspeed1 = invaderspeed1;
-                        }
-                        if (count1 < (rows * cols / 3))
-                        {
-                            invaderspeed1 = 6;
-                        }
-                        for (int r1 = 0; r1 < rows; r1++)
-                        {
-                            for (int c1 = 0; c1 < cols; c1++)
-                            {
-                                if (invaderalive[r1, c1].Equals(true))
-                                {
-                                    if (rectinvader[r1, c1].Y + rectinvader[r1, c1].Height > rectspaceship.Y)
-                                    {
-                                        this.Exit();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case Level.Level2:
-                    if(ScoreManager.Score == 100)
-                    {
-                        //ScoreManager.Level++;
-                        int rows = 7;
-                        int cols = 10;
-                        int invaderspeed2 = 3;
-                        rectinvader = new Rectangle[rows, cols];
-                        invaderalive = new bool[rows, cols];
-                        for (int r2 = 0; r2 < rows; r2++)
-                        {
-                            for (int c2 = 0; c2 < cols; c2++)
-                            {
-                                rectinvader[r2, c2].Width = invader.Width;
-                                rectinvader[r2, c2].Height = invader.Height;
-                                rectinvader[r2, c2].X = 60 * c2;
-                                rectinvader[r2, c2].Y = 60 * r2;
-                                invaderalive[r2, c2] = true;
-                            }
-                        }
-                        int rightside2 = graphics.GraphicsDevice.Viewport.Width;
-                        int leftside2 = 0;
-                        for (int r2 = 0; r2 < rows; r2++)
-                        {
-                            for (int c2 = 0; c2 < cols; c2++)
-                            {
-                                if (Direction.Equals("RIGHT"))
-                                    rectinvader[r2, c2].X = rectinvader[r2, c2].X + invaderspeed;
-                                if (Direction.Equals("LEFT"))
-                                    rectinvader[r2, c2].X = rectinvader[r2, c2].X - invaderspeed;
-                            }
-                        }
-                        string ChangeDirection1 = "N";
-                        for (int r2 = 0; r2 < rows; r2++)
-                        {
-                            for (int c2 = 0; c2 < cols; c2++)
-                            {
-                                if (invaderalive[r2, c2].Equals(true))
-                                {
-                                    if (rectinvader[r2, c2].X + rectinvader[r2, c2].Width > rightside2)
-                                    {
-                                        Direction = "LEFT";
-                                        ChangeDirection1 = "Y";
-                                    }
-
-                                    if (rectinvader[r2, c2].X < leftside2)
-                                    {
-                                        Direction = "RIGHT";
-                                        ChangeDirection1 = "Y";
-                                    }
-                                }
-                            }
-                        }
-                        if (ChangeDirection1.Equals("Y"))
-                        {
-                            for (int r2 = 0; r2 < rows; r2++)
-                            {
-                                for (int c2 = 0; c2 < cols; c2++)
-                                {
-                                    rectinvader[r2, c2].Y = rectinvader[r2, c2].Y + 5;
-                                }
-                            }
-                        }
-                        int count2 = 0;
-                        for (int r2 = 0; r2 < rows; r2++)
-                        {
-                            for (int c2 = 0; c2 < cols; c2++)
-                            {
-                                if (invaderalive[r2, c2].Equals(true))
-                                {
-                                    count2 = count2 + 1;
-                                }
-                            }
-                        }
-                        if (count2 > (rows * cols / 2))
-                        {
-                            invaderspeed2 = invaderspeed2;
-                        }
-                        if (count2 < (rows * cols / 3))
-                        {
-                            invaderspeed2 = 6;
-                        }
-                        for (int r2 = 0; r2 < rows; r2++)
-                        {
-                            for (int c2 = 0; c2 < cols; c2++)
-                            {
-                                if (invaderalive[r2, c2].Equals(true))
-                                {
-                                    if (rectinvader[r2, c2].Y + rectinvader[r2, c2].Height > rectspaceship.Y)
-                                    {
-                                        this.Exit();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-            }
+            
                 base.Update(gameTime);
         }
 
@@ -458,7 +276,16 @@ namespace AlienInvaders
             spriteBatch.Begin();
             scrolling1.Draw(spriteBatch);
             scrolling2.Draw(spriteBatch);
-            for (int r = 0; r < rows; r++)
+            /*switch (intGameState)
+            {
+                case 0:
+                    spriteBatch.Draw(imageStart, startScreen_Loc, Color.White);
+                    break;
+                case 1:
+                    spriteBatch.Draw(imageEnd, endScreen_Loc, Color.White);
+                    break;
+            }*/
+            /*for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
                 {
@@ -472,7 +299,7 @@ namespace AlienInvaders
             if (ProjectileVisible.Equals(true))
             {
                 spriteBatch.Draw(projectile, rectprojectile, Color.White);
-            }
+            }*/
             spriteBatch.End();
 
             base.Draw(gameTime);
