@@ -13,7 +13,6 @@ namespace AlienInvaders
 {
     public class PlayerInput : DrawableGameComponent
     {
-        //InputHandler input;
         SpriteBatch sb;
         Texture2D spaceship, invader, projectile;
         Rectangle rectspaceship, rectprojectile;
@@ -25,12 +24,10 @@ namespace AlienInvaders
         public string Direction = "RIGHT";
         public bool ProjectileVisible = false;
 
-        //public Vector2 Movement { get; private set; }
 
         public PlayerInput(Game game) : base(game)
         {
-            //input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
-            //this.Movement = Vector2.Zero;
+
         }
 
         public override void Initialize()
@@ -70,7 +67,6 @@ namespace AlienInvaders
 
         public override void Update(GameTime gametime)
         {
-            //this.Movement = Vector2.Zero;
             int rightside = GraphicsDevice.Viewport.Width;
             int leftside = 0;
             for (int r = 0; r < rows; r++)

@@ -19,10 +19,6 @@ namespace AlienInvaders
         public string maxTimesLabel;
         Vector2 textPos_1;
         Vector2 textPos_2;
-        //Vector2 textPos_3;
-        //Vector2 textPos_4;
-        //Vector2 textPos_5;
-        //Vector2 textPos_6;
 
 
 
@@ -37,11 +33,6 @@ namespace AlienInvaders
             maxTimesLabel = "Your Time:";
             textPos_1 = new Vector2(385, 270);
             textPos_2 = new Vector2(385, 305);
-            //textPos_3 = new Vector2(385, 270);
-            //textPos_4 = new Vector2(385, 305);
-            //textPos_5 = new Vector2(385, 340);
-            //textPos_6 = new Vector2(385, 375);
-
             base.Initialize();
         }
 
@@ -73,42 +64,11 @@ namespace AlienInvaders
                     {
                         sb.DrawString(ScoreManager.Font, maxTimesLabel, textPos_1, Color.White);
                         sb.DrawString(ScoreManager.Font, ScoreManager.textMaxTime_2[0], textPos_2, Color.White);
-                        //sb.DrawString(ScoreManager.Font, ScoreManager.textMaxTime_2[1], textPos_3, Color.White);
-                        //sb.DrawString(ScoreManager.Font, ScoreManager.textMaxTime_2[2], textPos_4, Color.White);
-                        //sb.DrawString(ScoreManager.Font, ScoreManager.textMaxTime_2[3], textPos_5, Color.White);
-                        //sb.DrawString(ScoreManager.Font, ScoreManager.textMaxTime_2[4], textPos_6, Color.White);
                     }
                     break;
             }
             sb.End();
             base.Draw(gameTime);
         }
-        /*public GameStates()
-        {
-
-        }
-
-        public GameStates(Vector2 loc)
-        {
-            this.spriteLoc = loc;
-        }
-
-        public GameStates(float loc_X, float loc_Y)
-        {
-            this.spriteLoc.X = loc_X;
-            this.spriteLoc.Y = loc_Y;
-        }
-
-        public GameStates(float loc_X, float loc_Y, float dim_X, float dim_Y, float speed_X, float speed_Y)
-        {
-            this.spriteLoc.X = loc_X;
-            this.spriteLoc.Y = loc_Y;
-
-            this.spriteDims.X = loc_X;
-            this.spriteDims.Y = loc_Y;
-
-            this.spriteSpeed.X = speed_X;
-            this.spriteSpeed.Y = speed_Y;
-        }*/
     }
 }

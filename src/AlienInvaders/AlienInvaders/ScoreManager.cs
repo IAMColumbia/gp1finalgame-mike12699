@@ -21,11 +21,12 @@ namespace AlienInvaders
         public static string Help1;
         public static string Help2;
         public static string Help3;
+        public static string Help4;
         public static bool maxTimeRun = false;
         public static string[] textMaxTime_1;
         public static string[] textMaxTime_2;
         public static int maxScores = 1;
-        Vector2 livesLoc, helpLoc1, helpLoc2, helpLoc3;
+        Vector2 livesLoc, helpLoc1, helpLoc2, helpLoc3, helpLoc4;
         SpriteBatch sb;
         public ScoreManager(Game game) : base(game)
         {
@@ -38,6 +39,7 @@ namespace AlienInvaders
             Help1 = "Press Left or Right to move";
             Help2 = "Press SPACE to shoot";
             Help3 = "Destroy the aliens as fast as you can";
+            Help4 = "Press Escape to quit";
         }
 
         public override void Initialize()
@@ -55,6 +57,7 @@ namespace AlienInvaders
             helpLoc1 = new Vector2(10, 30);
             helpLoc2 = new Vector2(10, 50);
             helpLoc3 = new Vector2(280, 10);
+            helpLoc4 = new Vector2(330, 30);
             base.LoadContent();
         }
 
@@ -139,10 +142,10 @@ namespace AlienInvaders
         {
             sb.Begin();
             sb.DrawString(Font, "Lives: " + Lives, livesLoc, Color.White);
-            //sb.DrawString(Font, "Score: " + Score, scoreLoc, Color.White);
             sb.DrawString(Font, Help1, helpLoc1, Color.Yellow);
             sb.DrawString(Font, Help2, helpLoc2, Color.Yellow);
             sb.DrawString(Font, Help3, helpLoc3, Color.Red);
+            sb.DrawString(Font, Help4, helpLoc4, Color.White);
             sb.End();
             base.Draw(gameTime);
         }

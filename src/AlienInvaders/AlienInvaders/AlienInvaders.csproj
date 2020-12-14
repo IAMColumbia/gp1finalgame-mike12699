@@ -41,7 +41,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Aliens.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameStates.cs" />
