@@ -18,14 +18,14 @@ namespace AlienInvaders
         public static SpriteFont Font;
         public static int Score;
         public static int Lives;
-        public static int Level;
         public static string Help1;
         public static string Help2;
+        public static string Help3;
         public static bool maxTimeRun = false;
         public static string[] textMaxTime_1;
         public static string[] textMaxTime_2;
         public static int maxScores = 1;
-        Vector2 livesLoc, levelLoc, helpLoc1, helpLoc2;
+        Vector2 livesLoc, helpLoc1, helpLoc2, helpLoc3;
         SpriteBatch sb;
         public ScoreManager(Game game) : base(game)
         {
@@ -35,15 +35,16 @@ namespace AlienInvaders
         {
             Lives = 1;
             Score = 0;
-            Level = 1;
             Help1 = "Press Left or Right to move";
             Help2 = "Press SPACE to shoot";
+            Help3 = "Destroy the aliens as fast as you can";
         }
 
         public override void Initialize()
         {
             textMaxTime_1 = new string[maxScores];
             textMaxTime_2 = new string[maxScores];
+            GameStates.intGameState = 0;
             base.Initialize();
         }
         protected override void LoadContent()
@@ -51,10 +52,9 @@ namespace AlienInvaders
             sb = new SpriteBatch(this.Game.GraphicsDevice);
             Font = this.Game.Content.Load<SpriteFont>("Arial");
             livesLoc = new Vector2(10, 10);
-            levelLoc = new Vector2(370, 10);
-            //scoreLoc = new Vector2(700, 10);
             helpLoc1 = new Vector2(10, 30);
             helpLoc2 = new Vector2(10, 50);
+            helpLoc3 = new Vector2(280, 10);
             base.LoadContent();
         }
 
@@ -140,9 +140,9 @@ namespace AlienInvaders
             sb.Begin();
             sb.DrawString(Font, "Lives: " + Lives, livesLoc, Color.White);
             //sb.DrawString(Font, "Score: " + Score, scoreLoc, Color.White);
-            sb.DrawString(Font, "Level: " + Level, levelLoc, Color.White);
             sb.DrawString(Font, Help1, helpLoc1, Color.Yellow);
             sb.DrawString(Font, Help2, helpLoc2, Color.Yellow);
+            sb.DrawString(Font, Help3, helpLoc3, Color.Red);
             sb.End();
             base.Draw(gameTime);
         }

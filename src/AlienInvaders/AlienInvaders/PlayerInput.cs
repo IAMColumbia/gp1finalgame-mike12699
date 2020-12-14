@@ -144,8 +144,6 @@ namespace AlienInvaders
                         {
                             rows = 0;
                             cols = 0;
-                            spaceship.Dispose();
-                            projectile.Dispose();
                             ScoreManager.Lives--;
                             GameStates.intGameState = 1;
                             
@@ -193,13 +191,73 @@ namespace AlienInvaders
             if (ScoreManager.Score == 50)
             {
                 GameStates.intGameState = 2;
-                spaceship.Dispose();
-                projectile.Dispose();
+                if (GameStates.intGameState == 2 && kb.IsKeyDown(Keys.Enter))
+                {
+                    GameStates.intGameState = 0;
+                    ScoreManager.Score = 0;
+                    ScoreManager.Lives = 1;
+                    Timer.time = 0;
+                    ScoreManager.maxTimeRun = false;
+                    rows = 5;
+                    cols = 10;
+                    invaderspeed = 3;
+                    for (int r = 0; r < rows; r++)
+                    {
+                        for (int c = 0; c < cols; c++)
+                        {
+                            rectinvader[r, c].Width = invader.Width;
+                            rectinvader[r, c].Height = invader.Height;
+                            rectinvader[r, c].X = 60 * c;
+                            rectinvader[r, c].Y = 60 * r;
+                            invaderalive[r, c] = true;
+                        }
+                    }
+                    rectspaceship.Width = spaceship.Width;
+                    rectspaceship.Height = spaceship.Height;
+                    rectspaceship.X = 0;
+                    rectspaceship.Y = 400;
+                    rectprojectile.Width = projectile.Width;
+                    rectprojectile.Height = projectile.Height;
+                    rectprojectile.X = 0;
+                    rectprojectile.Y = 0;
+                }
             }
             if (rectprojectile.Y + rectprojectile.Height < 0)
             {
                 ProjectileVisible = false;
             }
+            if (GameStates.intGameState == 1 && kb.IsKeyDown(Keys.Enter))
+            {
+                GameStates.intGameState = 0;
+                ScoreManager.Score = 0;
+                ScoreManager.Lives = 1;
+                Timer.time = 0;
+                ScoreManager.maxTimeRun = false;
+                rows = 5;
+                cols = 10;
+                invaderspeed = 3;
+                for (int r = 0; r < rows; r++)
+                {
+                    for (int c = 0; c < cols; c++)
+                    {
+                        rectinvader[r, c].Width = invader.Width;
+                        rectinvader[r, c].Height = invader.Height;
+                        rectinvader[r, c].X = 60 * c;
+                        rectinvader[r, c].Y = 60 * r;
+                        invaderalive[r, c] = true;
+                    }
+                }
+                rectspaceship.Width = spaceship.Width;
+                rectspaceship.Height = spaceship.Height;
+                rectspaceship.X = 0;
+                rectspaceship.Y = 400;
+                rectprojectile.Width = projectile.Width;
+                rectprojectile.Height = projectile.Height;
+                rectprojectile.X = 0;
+                rectprojectile.Y = 0;
+
+            }
+
             
             base.Update(gametime);
         }

@@ -1,1 +1,11 @@
 Release Notes version 3 Final
+
+-Added the win and lose state and directions prompting what the player does next
+-Replaced the score with a timer to keep track how long player takes to defeat all enemies
+-The total time will display on the win screen when all enemies are defeated
+-Reorganized more of the code to have some separation of concern
+-Slowed down the alien speed slightly when there are less than half on screen so that the player can have an easier time defeating all enemies
+-Added "System.IO" to record the last score they got when all enemies are defeated
+-Used a case/switch method for transitioning to the win or lose screens whenever they are called
+-Added the class diagram to display the working classes
+-Documented on what I have for the final and explained any problems I encountered to create this project

@@ -11,18 +11,18 @@ namespace AlienInvaders
     public class GameStates : DrawableGameComponent
     {
         SpriteBatch sb;
-        //public Texture2D spriteTexture = null;
         public Texture2D imageEnd;
         public Texture2D imageWin;
         public Vector2 endScreenLose_Loc;
         public Vector2 endScreenWin_Loc;
-        //public Vector2 spriteLoc = Vector2.Zero;
-        //public Vector2 spriteDims = Vector2.Zero;
-        //public Vector2 spriteSpeed = Vector2.Zero;
         public static int intGameState;
         public string maxTimesLabel;
         Vector2 textPos_1;
         Vector2 textPos_2;
+        //Vector2 textPos_3;
+        //Vector2 textPos_4;
+        //Vector2 textPos_5;
+        //Vector2 textPos_6;
 
 
 
@@ -37,6 +37,11 @@ namespace AlienInvaders
             maxTimesLabel = "Your Time:";
             textPos_1 = new Vector2(385, 270);
             textPos_2 = new Vector2(385, 305);
+            //textPos_3 = new Vector2(385, 270);
+            //textPos_4 = new Vector2(385, 305);
+            //textPos_5 = new Vector2(385, 340);
+            //textPos_6 = new Vector2(385, 375);
+
             base.Initialize();
         }
 
@@ -68,6 +73,10 @@ namespace AlienInvaders
                     {
                         sb.DrawString(ScoreManager.Font, maxTimesLabel, textPos_1, Color.White);
                         sb.DrawString(ScoreManager.Font, ScoreManager.textMaxTime_2[0], textPos_2, Color.White);
+                        //sb.DrawString(ScoreManager.Font, ScoreManager.textMaxTime_2[1], textPos_3, Color.White);
+                        //sb.DrawString(ScoreManager.Font, ScoreManager.textMaxTime_2[2], textPos_4, Color.White);
+                        //sb.DrawString(ScoreManager.Font, ScoreManager.textMaxTime_2[3], textPos_5, Color.White);
+                        //sb.DrawString(ScoreManager.Font, ScoreManager.textMaxTime_2[4], textPos_6, Color.White);
                     }
                     break;
             }
