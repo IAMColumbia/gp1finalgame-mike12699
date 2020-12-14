@@ -1,1 +1,16 @@
 Release Notes version 2 Vertical Slice
+
+-Added the MonoGameLibrary project to help with the coding
+-Added the lives, level, and score counter on the screen
+-When an enemy spaceship is defeated, adds one point to score
+-Level does change when first batch of enemies are defeated (after second batch of enemies are defeated, game keeps going; need to fix that somehow)
+-Added a vertically scrolling background (still a little buggy)
+-Reorganized most of the code to their respective classes
+-Game closes upon winning and losing
+
+Incoming chabges for future commit
+
+-Fix the game to actually change levels when the player defeats all enemies (struggling on that a little
+-Add a Win and Lose state instead of closing the game
+-Have random projectiles come down the screen to try and hit the player
+-Add a restart method when the player either wins or loses
